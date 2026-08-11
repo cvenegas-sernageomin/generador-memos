@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>DEV · Generador de Memos</title>
+<style>
+  :root{ --verde:#1f5c4d; --verde2:#2b7d68; --tierra:#7A5C2E; --bg:#f4f1ea; --card:#ffffff;
+         --linea:#e2ddd1; --txt:#2a2a26; --gris:#6b6459; --rojo:#a3341f; }
+  *{box-sizing:border-box; -webkit-font-smoothing:antialiased}
+  html,body{margin:0; padding:0; background:var(--bg); color:var(--txt);
+    font-family:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif; font-size:15px}
+  .wrap{max-width:1000px; margin:0 auto; padding:18px 16px 60px}
+  header h1{margin:.2em 0 .1em; font-size:1.4rem; color:var(--verde)}
+  .sub{margin:0 0 1em; color:var(--gris); font-size:.9rem}
+  .ver{color:var(--tierra); font-weight:600}
+  .card{background:var(--card); border:1px solid var(--linea); border-radius:12px;
+    padding:18px; margin-bottom:16px; box-shadow:0 1px 2px rgba(0,0,0,.03)}
+  .card h2{margin:.1em 0 .6em; font-size:1.05rem; color:var(--verde)}
+  .hint{color:var(--gris); font-size:.86rem; margin:.4em 0 1em; line-height:1.45}
+  .drop{border:2px dashed var(--verde2); border-radius:10px; padding:22px; text-align:center;
+    color:var(--verde2); cursor:pointer; background:#f0f7f4; margin-bottom:12px; font-size:.92rem}
+  .drop:hover{background:#e6f2ee}
+  textarea{width:100%; border:1px solid var(--linea); border-radius:8px; padding:10px;
+    font-family:ui-monospace,Consolas,monospace; font-size:.82rem; resize:vertical}
+  button{font:inherit; cursor:pointer; border-radius:8px; border:1px solid transparent}
+  button:disabled{opacity:.5; cursor:not-allowed}
+  .primary{background:var(--verde); color:#fff; padding:10px 18px; margin-top:12px; font-weight:600}
+  .primary:hover:not(:disabled){background:var(--verde2)}
+  .primary.big{width:100%; padding:14px; font-size:1.05rem; margin-top:14px}
+  .link{background:transparent; color:var(--verde2); border:1px solid var(--linea); padding:6px 12px}
+  .link:hover{background:#f0f7f4}
+  .row{display:flex; gap:10px; align-items:center; flex-wrap:wrap}
+  .row.between{justify-content:space-between}
+  .toolbar{margin:.4em 0 1em}
+  .buscar{padding:8px 10px; border:1px solid var(--linea); border-radius:8px; min-width:160px}
+  select{padding:8px 10px; border:1px solid var(--linea); border-radius:8px; background:#fff}
+  .aviso{padding:10px 14px; border-radius:8px; margin-bottom:14px; font-size:.9rem}
+  .aviso.ok{background:#e7f4ee; color:#1f5c4d; border:1px solid #bfe3d3}
+  .aviso.error{background:#fbe9e5; color:var(--rojo); border:1px solid #f0c5bb}
+  .tablewrap{overflow-x:auto; border:1px solid var(--linea); border-radius:8px}
+  table{border-collapse:collapse; width:100%; font-size:.86rem}
+  thead th{background:#f0ede5; text-align:left; padding:8px 10px; position:sticky; top:0;
+    border-bottom:1px solid var(--linea); white-space:nowrap}
+  tbody td{padding:6px 10px; border-bottom:1px solid #f0ede5}
+  tbody tr.sel{background:#f4faf7}
+  .mono{font-family:ui-monospace,Consolas,monospace; font-size:.82rem; white-space:nowrap}
+  .celda{width:100%; min-width:150px; border:1px solid var(--linea); border-radius:6px; padding:4px 6px}
+  select.warn{border-color:var(--rojo); background:#fbe9e5}
+  .warn{color:var(--rojo); font-weight:600}
+  .resumen{margin:12px 0 4px; color:var(--txt); font-size:.9rem}
+</style>
+</head>
+<body>
+<div id="root"></div>
+<script src="vendor/react.production.min.js"></script>
+<script src="vendor/react-dom.production.min.js"></script>
+<script src="vendor/jszip.min.js"></script>
+<script src="vendor/babel.min.js"></script>
+<script type="text/babel" data-presets="react" src="src/app.jsx"></script>
+</body>
+</html>

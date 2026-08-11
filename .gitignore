@@ -1,0 +1,10 @@
+# Artefactos de build single-file (regenerables con build.ps1; se comparten a demanda)
+dist/
+
+# Config de dev local (servidor de preview)
+.claude/
+
+# Temporales
+__pycache__/
+*.pyc
+.tmp/
