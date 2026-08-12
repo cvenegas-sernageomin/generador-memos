@@ -57,6 +57,18 @@
 <script src="vendor/react-dom.production.min.js"></script>
 <script src="vendor/jszip.min.js"></script>
 <script src="vendor/babel.min.js"></script>
-<script type="text/babel" data-presets="react" src="src/app.jsx"></script>
+<script>
+// Carga src/app.jsx siempre fresco (sin caché) e inyecta como <script type="text/babel">
+// inline -- el navegador cachea agresivamente los <script src=...>, lo que confundía
+// las pruebas de iteración durante el desarrollo (código viejo ejecutando pese a editar).
+fetch("src/app.jsx?t=" + Date.now(), { cache: "no-store" }).then((r) => r.text()).then((code) => {
+  const s = document.createElement("script");
+  s.type = "text/babel";
+  s.setAttribute("data-presets", "react");
+  s.text = code;
+  document.body.appendChild(s);
+  if (window.Babel) Babel.transformScriptTags();
+});
+</script>
 </body>
 </html>

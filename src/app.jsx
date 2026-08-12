@@ -13,19 +13,30 @@ const CONST = {
 const REQ_TEXT = { CT: "cortes transparente", DAT: "Datación U/Pb", RX: "rayos x" };
 const TIPO_LABEL = { CT: "Cortes transp.", DAT: "Datación", RX: "Rayos X", "?": "(sin tipo)" };
 
-// Alias de nombres de columna aceptados (normalizados: MAYÚSCULAS sin acentos ni separadores).
+// Palabras clave por campo (normalizadas: MAYÚSCULAS sin acentos/espacios/puntuación).
+// Un encabezado matchea un campo si contiene TODAS las palabras clave de algún grupo,
+// como substring -- así "Sigla de la Muestra" matchea ["SIGLA"] aunque el alias real de
+// ArcGIS tenga palabras conectoras que un nombre exacto adivinado nunca iba a cubrir.
+// Grupos con más de una palabra clave evitan choques (ej. "Tipo de Muestra" vs "Tipo de
+// Analisis": TIPOMUESTRA exige TIPO+MUESTRA, que "Tipo de Analisis" no cumple).
 const CAMPOS = {
-  sigla:      ["SIGLAMUESTRA", "IDMUESTRASIGLA", "SIGLA", "ID"],
-  tipoAnal:   ["TIPOANALISIS", "REQUERIMIENTO", "REQUERIMIENTOANALITICO"],
-  litologia:  ["LITOLOGIA", "LITOLOGIANOMBREROCA", "ROCA"],
-  unidad:     ["UNIDADGEOLOGICA", "UNIDAD"],
-  observ:     ["OBSERVACIONES", "OBS"],
-  geologo:    ["GEOLOGO", "COLECTOR", "COLECTORGEOLOGO"],
-  este:       ["COORDESTE", "UTMESTE", "ESTE", "X"],
-  norte:      ["COORDNORTE", "UTMNORTE", "NORTE", "Y"],
-  tipoMuestra:["TIPOMUESTRA", "TIPODEMUESTRA"],
-  fecha:      ["FECHAMUESTREO", "FECHAINGRESOINFORMACION", "FECHA"],
+  sigla:      [["SIGLA"], ["IDMUESTRA"]],
+  tipoAnal:   [["TIPO", "ANALISIS"], ["REQUERIMIENTO"]],
+  litologia:  [["LITOLOGIA"], ["ROCA"]],
+  unidad:     [["UNIDAD", "GEOLOGIC"]],
+  observ:     [["OBSERVAC"]],
+  geologo:    [["GEOLOGO"], ["COLECTOR"]],
+  este:       [["ESTE"], ["COORDX"], ["UTMX"]],
+  norte:      [["NORTE"], ["COORDY"], ["UTMY"]],
+  tipoMuestra:[["TIPO", "MUESTRA"]],
+  fecha:      [["FECHA", "MUESTREO"], ["FECHA", "INGRESO"], ["FECHA"]],
 };
+
+// Valores que ArcGIS exporta para representar nulo/vacío: se tratan como "".
+function limpiarValor(v) {
+  const s = (v || "").trim();
+  return /^<\s*nulo\s*>$/i.test(s) ? "" : s;
+}
 
 // Límites (según formato de las plantillas reales).
 const MAX_FI = 24;         // filas de la Ficha de Ingreso
@@ -59,7 +70,7 @@ function detectTipo(sigla, tipoAnal) {
   }
   const t = (tipoAnal || "").toLowerCase();
   if (t.includes("corte") || t === "t") return "CT";
-  if (t.includes("data") || t.includes("u-pb") || t.includes("u/pb") || t === "d") return "DAT";
+  if (t.includes("data") || t.includes("geocronolog") || t.includes("u-pb") || t.includes("u/pb") || t === "d") return "DAT";
   if (t.includes("rayos") || t.includes("rx") || t === "x") return "RX";
   return "?";
 }
@@ -71,18 +82,27 @@ function parseTabla(texto) {
   const delim = lineas[0].includes("\t") ? "\t" : (lineas[0].includes(";") ? ";" : ",");
   const headersRaw = lineas[0].split(delim).map((h) => h.trim());
   const headersNorm = headersRaw.map(normHeader);
-  const idxDe = (claves) => {
-    for (const k of claves) { const i = headersNorm.indexOf(k); if (i >= 0) return i; }
+  // Primer encabezado (en orden) que contenga TODAS las palabras clave de algún grupo.
+  const idxDe = (grupos) => {
+    for (const grupo of grupos) {
+      const i = headersNorm.findIndex((h) => grupo.every((kw) => h.includes(kw)));
+      if (i >= 0) return i;
+    }
     return -1;
   };
   const idx = {};
   for (const campo in CAMPOS) idx[campo] = idxDe(CAMPOS[campo]);
-  if (idx.sigla < 0) return { rows: [], headersRaw, error: "No se encontró la columna de sigla de muestra (SIGLA_MUESTRA)." };
+  if (idx.sigla < 0) {
+    return {
+      rows: [], headersRaw,
+      error: "No se encontró una columna de sigla de muestra. Encabezados detectados: " + headersRaw.join(" | "),
+    };
+  }
 
   const rows = [];
   for (let i = 1; i < lineas.length; i++) {
     const celdas = lineas[i].split(delim);
-    const get = (c) => (idx[c] >= 0 ? (celdas[idx[c]] || "").trim() : "");
+    const get = (c) => (idx[c] >= 0 ? limpiarValor(celdas[idx[c]]) : "");
     const sigla = get("sigla");
     if (!sigla) continue;
     const unidad = get("unidad") || get("observ");   // unidad geológica: campo propio o, si no, OBSERVACIONES
