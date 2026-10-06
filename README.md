@@ -81,3 +81,15 @@ Se publica la carpeta `pwa/` (contiene `index.html` autocontenido + `sw.js` +
   geodatabase) queda como mejora futura; hoy la entrada es copiar/pegar o CSV.
 - El campo "unidad geológica" se toma de la columna correspondiente o, si no
   existe, de OBSERVACIONES, y es **editable** en la tabla antes de generar.
+
+## Licencia y cómo citar
+
+© 2026 SERNAGEOMIN / Carlos Venegas Benavides. El trabajo original de este repositorio se distribuye bajo
+**[CC BY-NC 4.0](https://creativecommons.org/licenses/by-nc/4.0/deed.es)**: se puede compartir y adaptar
+**citando la fuente** y **sin fines comerciales**. Ver [`LICENSE`](LICENSE).
+
+El membrete, logos y formato institucional pertenecen a SERNAGEOMIN. Las librerías de terceros incluidas (por ejemplo en `vendor/`) conservan sus propias licencias.
+
+Cita sugerida:
+
+> SERNAGEOMIN / Venegas Benavides, C. (2026). Generador de Memos de Laboratorio [aplicación web]. https://cvenegas-sernageomin.github.io/generador-memos/

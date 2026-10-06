@@ -1,0 +1,30 @@
+{
+  "upload_type": "software",
+  "title": "Generador de Memos de Laboratorio",
+  "description": "<p>Aplicación web que genera los memos de envío de muestras al Departamento de Laboratorio de SERNAGEOMIN (cortes transparentes, dataciones U-Pb, rayos X) y fichas de ingreso desde gdb o shapefile.</p><p>Publicado en https://cvenegas-sernageomin.github.io/generador-memos/</p><p>La licencia CC BY-NC 4.0 cubre el trabajo original de los autores. No cubre el material de terceros:</p><ul><li>El membrete, logos y formato institucional pertenecen a SERNAGEOMIN.</li><li>Las librerías de terceros incluidas (por ejemplo en vendor/) conservan sus propias licencias.</li></ul>",
+  "creators": [
+    {
+      "name": "Servicio Nacional de Geología y Minería (SERNAGEOMIN)"
+    },
+    {
+      "name": "Venegas Benavides, Carlos",
+      "affiliation": "Servicio Nacional de Geología y Minería (SERNAGEOMIN)"
+    }
+  ],
+  "license": "cc-by-nc-4.0",
+  "access_right": "open",
+  "language": "spa",
+  "keywords": [
+    "laboratorio",
+    "muestras",
+    "memos",
+    "SERNAGEOMIN"
+  ],
+  "related_identifiers": [
+    {
+      "identifier": "https://cvenegas-sernageomin.github.io/generador-memos/",
+      "relation": "isDocumentedBy",
+      "resource_type": "other"
+    }
+  ]
+}
