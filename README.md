@@ -1,5 +1,7 @@
 # Generador de Memos de Laboratorio
 
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.23196792.svg)](https://doi.org/10.5281/zenodo.23196792)
+
 PWA (página web sin instalación) que genera los Excel de envío de muestras al
 Departamento de Laboratorio de SERNAGEOMIN, con el **formato institucional exacto**
 (membrete y logos incluidos), a partir de la tabla de muestras del proyecto.
@@ -92,4 +94,4 @@ El membrete, logos y formato institucional pertenecen a SERNAGEOMIN. Las librer�
 
 Cita sugerida:
 
-> SERNAGEOMIN / Venegas Benavides, C. (2026). Generador de Memos de Laboratorio [aplicación web]. https://cvenegas-sernageomin.github.io/generador-memos/
+> SERNAGEOMIN / Venegas Benavides, C. (2026). Generador de Memos de Laboratorio [aplicación web]. https://cvenegas-sernageomin.github.io/generador-memos/ · DOI: https://doi.org/10.5281/zenodo.23196792
